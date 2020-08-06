@@ -18,6 +18,7 @@ export interface SageResponseBody {
     bindings: string[];
     next: string | null;
     hasNext: boolean;
+    stats?: any;
 }
 /**
  * An HTTP client used to query a SaGe server using the SPARQL query protocol

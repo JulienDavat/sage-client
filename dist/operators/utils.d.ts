@@ -12,9 +12,8 @@ export declare function formatBGPQuery(generator: Generator, triples: Algebra.Tr
  */
 export declare function formatManyBGPQuery(generator: Generator, bgps: Array<Algebra.TripleObject[]>): string;
 /**
- * Create a SPARQL query (in string format) from a set of Basic Graph Patterns, Filters and Binds
- * @param  variables - Set of variables to project
- * @param  nodes - Set of Basic Graph Patterns (i.e., a set of set of triple patterns), Filters and Binds
+ * Create a SPARQL query (in string format) from the root of a SPARQL query plan
+ * @param  root - Root of a SPARQL query plan
  * @return A SPARQL query
  */
-export declare function formatManyBGPWithFiltersAndBindsQuery(generator: Generator, variables: Array<string> | undefined, prefixes: any, nodes: Array<Algebra.BGPNode | Algebra.BindNode | Algebra.FilterNode | Algebra.GroupNode>): string;
+export declare function formatQuery(generator: Generator, root: Algebra.RootNode): string;

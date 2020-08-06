@@ -19,12 +19,11 @@ export declare function SageBGPOperator(bgp: Algebra.TripleObject[], defaultGrap
  */
 export declare function SageManyBGPOperator(bgps: Array<Algebra.TripleObject[]>, defaultGraph: string, sageClient: SageRequestClient): PipelineStage<Bindings>;
 /**
- * An operator used to evaluate a SPARQL query with a set of BGPs, Filters and Binds
+ * An operator used to evaluate a SPARQL query.
+ * Wearning: Only BGP, Filter and Bind nodes are supported by a SaGe server.
  * @author Julien AIMONIER-DAVAT
- * @param variables - Set of variables to select
- * @param prefixes - Prefixes used in the query
- * @param nodes  - Set of BGPs, Filters and Binds to evaluate
+ * @param root - Root node of a SPARQL query plan
  * @param sageClient - HTTP client used to query a Sage server
  * @return A stage of the pipeline which produces the query results
  */
-export declare function SageManyBGPWithFiltersAndBindsOperator(variables: Array<string>, prefixes: any, nodes: Array<Algebra.BindNode | Algebra.BGPNode | Algebra.FilterNode | Algebra.GroupNode>, defaultGraph: string, sageClient: SageRequestClient): PipelineStage<Bindings>;
+export declare function SageQueryOperator(root: Algebra.RootNode, defaultGraph: string, sageClient: SageRequestClient): PipelineStage<Bindings>;

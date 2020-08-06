@@ -1,4 +1,4 @@
-import { PipelineStage, QueryOutput, Consumable } from 'sparql-engine';
+import { PipelineStage } from 'sparql-engine';
 import Spy from './spy';
 /**
  * A SageClient is used to evaluate SPARQL queries againt a SaGe server
@@ -41,5 +41,5 @@ export default class SageClient {
      * @param  query - SPARQL query to evaluate
      * @return An iterator used to evaluates the query
      */
-    execute(query: string): PipelineStage<QueryOutput> | Consumable;
+    execute(query: string): PipelineStage<unknown>;
 }

@@ -67,8 +67,8 @@ var SageGraph = /** @class */ (function (_super) {
     SageGraph.prototype.evalUnion = function (patterns, options) {
         return sage_operators_1.SageManyBGPOperator(patterns, this._defaultGraph, this._httpClient);
     };
-    SageGraph.prototype.evalQuery = function (variables, prefixes, nodes, context) {
-        return sage_operators_1.SageManyBGPWithFiltersAndBindsOperator(variables, prefixes, nodes, this._defaultGraph, this._httpClient);
+    SageGraph.prototype.evalQuery = function (query, context) {
+        return sage_operators_1.SageQueryOperator(query, this._defaultGraph, this._httpClient);
     };
     SageGraph.prototype.open = function () {
         this._httpClient.open();
