@@ -19,7 +19,7 @@ export default class SageGraph extends Graph {
     find(triple: Algebra.TripleObject, context: ExecutionContext): PipelineInput<Algebra.TripleObject>;
     evalBGP(bgp: Algebra.TripleObject[], context: ExecutionContext): PipelineStage<Bindings>;
     evalUnion(patterns: Array<Algebra.TripleObject[]>, options: ExecutionContext): PipelineStage<Bindings>;
-    evalQuery(variables: Array<string>, prefixes: any, nodes: Array<Algebra.BGPNode | Algebra.BindNode | Algebra.FilterNode | Algebra.GroupNode>, context: ExecutionContext): PipelineStage<Bindings>;
+    evalQuery(query: Algebra.RootNode, context: ExecutionContext): PipelineStage<Bindings>;
     open(): void;
     close(): void;
     insert(): Promise<void>;

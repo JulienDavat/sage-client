@@ -59,7 +59,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SageManyBGPWithFiltersAndBindsOperator = exports.SageManyBGPOperator = exports.SageBGPOperator = void 0;
+exports.SageQueryOperator = exports.SageManyBGPOperator = exports.SageBGPOperator = void 0;
 var sparql_engine_1 = require("sparql-engine");
 var utils_1 = require("./utils");
 var sparqljs_1 = require("sparqljs");
@@ -143,21 +143,20 @@ function SageManyBGPOperator(bgps, defaultGraph, sageClient) {
 }
 exports.SageManyBGPOperator = SageManyBGPOperator;
 /**
- * An operator used to evaluate a SPARQL query with a set of BGPs, Filters and Binds
+ * An operator used to evaluate a SPARQL query.
+ * Wearning: Only BGP, Filter and Bind nodes are supported by a SaGe server.
  * @author Julien AIMONIER-DAVAT
- * @param variables - Set of variables to select
- * @param prefixes - Prefixes used in the query
- * @param nodes  - Set of BGPs, Filters and Binds to evaluate
+ * @param root - Root node of a SPARQL query plan
  * @param sageClient - HTTP client used to query a Sage server
  * @return A stage of the pipeline which produces the query results
  */
-function SageManyBGPWithFiltersAndBindsOperator(variables, prefixes, nodes, defaultGraph, sageClient) {
+function SageQueryOperator(root, defaultGraph, sageClient) {
     var generator = new sparqljs_1.Generator();
-    var query = utils_1.formatManyBGPWithFiltersAndBindsQuery(generator, variables, prefixes, nodes);
+    var query = utils_1.formatQuery(generator, root);
     return sparql_engine_1.Pipeline.getInstance().fromAsync(function (input) {
         querySage(query, defaultGraph, sageClient, input)
             .then(function () { return input.complete(); })
             .catch(function (err) { return input.error(err); });
     });
 }
-exports.SageManyBGPWithFiltersAndBindsOperator = SageManyBGPWithFiltersAndBindsOperator;
+exports.SageQueryOperator = SageQueryOperator;

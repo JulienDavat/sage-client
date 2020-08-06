@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatManyBGPWithFiltersAndBindsQuery = exports.formatManyBGPQuery = exports.formatBGPQuery = void 0;
+exports.formatQuery = exports.formatManyBGPQuery = exports.formatBGPQuery = void 0;
 /**
  * Create a SPARQL query (in string format) from a Basic Graph Pattern
  * @param  triples - Set of triple patterns
@@ -67,19 +67,11 @@ function formatManyBGPQuery(generator, bgps) {
 }
 exports.formatManyBGPQuery = formatManyBGPQuery;
 /**
- * Create a SPARQL query (in string format) from a set of Basic Graph Patterns, Filters and Binds
- * @param  variables - Set of variables to project
- * @param  nodes - Set of Basic Graph Patterns (i.e., a set of set of triple patterns), Filters and Binds
+ * Create a SPARQL query (in string format) from the root of a SPARQL query plan
+ * @param  root - Root of a SPARQL query plan
  * @return A SPARQL query
  */
-function formatManyBGPWithFiltersAndBindsQuery(generator, variables, prefixes, nodes) {
-    var jsonQuery = {
-        type: 'query',
-        prefixes: prefixes,
-        variables: variables,
-        queryType: 'SELECT',
-        where: nodes
-    };
-    return generator.stringify(jsonQuery);
+function formatQuery(generator, root) {
+    return generator.stringify(root);
 }
-exports.formatManyBGPWithFiltersAndBindsQuery = formatManyBGPWithFiltersAndBindsQuery;
+exports.formatQuery = formatQuery;

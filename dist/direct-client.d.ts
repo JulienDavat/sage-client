@@ -1,6 +1,5 @@
-import { PipelineStage, QueryOutput, Consumable } from 'sparql-engine';
+import { PipelineStage } from 'sparql-engine';
 import Spy from './spy';
-import { Algebra } from 'sparqljs';
 /**
  * A DirectSageClient is used to evaluate SPARQL queries againt a SaGe server
  * without using the smart client
@@ -39,12 +38,11 @@ export default class DirectSageClient {
      * @param {string} url - The url of the dataset to query
      */
     constructor(url: string, defaultGraph: string, spy?: Spy);
-    extractVariable(queryPlan: Algebra.RootNode): Array<string>;
-    extractNodes(queryPlan: Algebra.RootNode): Array<Algebra.BindNode | Algebra.BGPNode | Algebra.FilterNode | Algebra.GroupNode>;
     /**
      * Build an iterator used to evaluate a SPARQL query against a SaGe server
+     * Only BGP, Filter and Bind nodes are supported.
      * @param  query - SPARQL query to evaluate
      * @return An iterator used to evaluates the query
      */
-    execute(query: string): PipelineStage<QueryOutput> | Consumable;
+    execute(query: string): PipelineStage<unknown>;
 }

@@ -155,9 +155,9 @@ export class SageRequestClient {
             resolve(res)
           }).catch((error) => {
             if (error === 'Timeout') {
-              setTimeout(() => { console.log(`Number of attemps : ${counter}`); sendQueryWithRetryPolicy() }, self._retryDelay)
+              setTimeout(() => { /*console.log(`Number of attemps : ${counter}`);*/ sendQueryWithRetryPolicy() }, self._retryDelay)
             } else {
-              setTimeout(() => { console.log(`Number of attemps : ${counter}`); sendQueryWithRetryPolicy() }, self._retryDelay)
+              setTimeout(() => { /*console.log(`Number of attemps : ${counter}`);*/ sendQueryWithRetryPolicy() }, self._retryDelay)
             }
           })
         } else {

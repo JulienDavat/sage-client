@@ -77,65 +77,50 @@ var DirectSageClient = /** @class */ (function () {
         this._spy = spy;
         this._graph = new sage_graph_1.default(this._url, this._defaultGraph, this._spy);
     }
-    DirectSageClient.prototype.extractVariable = function (queryPlan) {
-        var e_1, _a;
-        var variables = new Array();
-        if (!queryPlan.variables) {
-            variables.push('*');
-            return variables;
-        }
-        try {
-            for (var _b = __values(queryPlan.variables), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var variable = _c.value;
-                if (utils_1.default.isAggregation(variable)) {
-                    throw new Error("Aggregation are not supported");
-                }
-                variables.push(variable);
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
+    /**
+     * Build an iterator used to evaluate a SPARQL query against a SaGe server
+     * Only BGP, Filter and Bind nodes are supported.
+     * @param  query - SPARQL query to evaluate
+     * @return An iterator used to evaluates the query
+     */
+    DirectSageClient.prototype.execute = function (query) {
+        var e_1, _a, e_2, _b;
+        var _this = this;
+        this._graph.open();
+        var queryPlan = new sparqljs_1.Parser().parse(query);
+        if (queryPlan.variables) {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                for (var _c = __values(queryPlan.variables), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var variable = _d.value;
+                    if (utils_1.default.isAggregation(variable)) {
+                        throw new Error("Aggregation are not supported");
+                    }
+                }
             }
-            finally { if (e_1) throw e_1.error; }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
         }
-        return variables;
-    };
-    DirectSageClient.prototype.extractNodes = function (queryPlan) {
-        var e_2, _a;
-        var nodes = new Array();
         try {
-            for (var _b = __values(queryPlan.where), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var node = _c.value;
+            for (var _e = __values(queryPlan.where), _f = _e.next(); !_f.done; _f = _e.next()) {
+                var node = _f.value;
                 if (!(utils_1.default.isBGPNode(node) || utils_1.default.isBindNode(node) || utils_1.default.isFilterNode(node) || utils_1.default.isGroupNode(node))) {
                     throw new Error("This operator is not supported: " + node.type);
                 }
-                nodes.push(node);
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
             }
             finally { if (e_2) throw e_2.error; }
         }
-        return nodes;
-    };
-    /**
-     * Build an iterator used to evaluate a SPARQL query against a SaGe server
-     * @param  query - SPARQL query to evaluate
-     * @return An iterator used to evaluates the query
-     */
-    DirectSageClient.prototype.execute = function (query) {
-        var _this = this;
-        this._graph.open();
-        var queryPlan = new sparqljs_1.Parser().parse(query);
-        var variables = this.extractVariable(queryPlan);
-        var prefixes = queryPlan.prefixes;
-        var nodes = this.extractNodes(queryPlan);
-        var pipeline = this._graph.evalQuery(variables, prefixes, nodes, new sparql_engine_1.ExecutionContext());
+        var pipeline = this._graph.evalQuery(queryPlan, new sparql_engine_1.ExecutionContext());
         return sparql_engine_1.Pipeline.getInstance().finalize(pipeline, function () { return _this._graph.close(); });
     };
     return DirectSageClient;

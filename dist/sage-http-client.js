@@ -39,7 +39,7 @@ var SageRequestClient = /** @class */ (function () {
         this._url = url;
         this._spy = spy;
         // TODO check if this really enable http multi-sockets and speed up query exec.
-        request.forever({ timeout: 1000, minSockets: 10 }, null);
+        request.forever({ timeout: 2000, minSockets: 10 }, null);
         this._httpClient = request.defaults({
             method: 'POST',
             json: true,
@@ -120,10 +120,10 @@ var SageRequestClient = /** @class */ (function () {
                         resolve(res);
                     }).catch(function (error) {
                         if (error === 'Timeout') {
-                            setTimeout(function () { console.log("Number of attemps : " + counter); sendQueryWithRetryPolicy(); }, self._retryDelay);
+                            setTimeout(function () { /*console.log(`Number of attemps : ${counter}`);*/ sendQueryWithRetryPolicy(); }, self._retryDelay);
                         }
                         else {
-                            setTimeout(function () { console.log("Number of attemps : " + counter); sendQueryWithRetryPolicy(); }, self._retryDelay);
+                            setTimeout(function () { /*console.log(`Number of attemps : ${counter}`);*/ sendQueryWithRetryPolicy(); }, self._retryDelay);
                         }
                     });
                 }
